@@ -480,6 +480,54 @@ function getValue(id) {
   return el ? el.value.trim() : "";
 }
 
+function getBookingList() {
+  return JSON.parse(localStorage.getItem("booking")) || [];
+}
+
+function getTodayBookingCount() {
+  const today = new Date().toDateString();
+
+  return getBookingList().filter((item) => {
+    const time = Number(String(item.id).replace("ZV-", ""));
+    if (!time) return false;
+    return new Date(time).toDateString() === today;
+  }).length;
+}
+
+function updateDashboard() {
+  const statBooking = document.getElementById("stat-booking");
+  const lastVisit = document.getElementById("last-visit");
+
+  if (statBooking) {
+    statBooking.textContent = getTodayBookingCount();
+  }
+
+  if (lastVisit) {
+    const list = getBookingList();
+
+    if (!list.length) {
+      lastVisit.innerHTML = `
+        <div class="history-empty">
+          Belum ada riwayat kunjungan
+        </div>
+      `;
+      return;
+    }
+
+    const last = list[list.length - 1];
+
+    lastVisit.innerHTML = `
+      <div class="history-item">
+        <div class="history-main">
+          <strong>${last.nama}</strong>
+          <span>${last.wbp}</span>
+        </div>
+        <div class="history-badge">${last.status}</div>
+      </div>
+    `;
+  }
+}
+
 function cekForm() {
   const nik = getValue("nik");
   const nama = getValue("nama");
@@ -566,11 +614,12 @@ function buatTicket(data) {
             <div class="ticket-note">
               Tunjukkan QR ini saat kunjungan
             </div>
+
             <div class="ticket-actions">
-  <button class="btn" onclick="window.location.reload()">
-    Kembali ke Beranda
-  </button>
-</div>
+              <button class="btn" onclick="window.location.reload()">
+                Kembali ke Beranda
+              </button>
+            </div>
           </div>
         </section>
       </div>
@@ -617,7 +666,7 @@ function booking() {
     status: "BOOKED"
   };
 
-  const data = JSON.parse(localStorage.getItem("booking")) || [];
+  const data = getBookingList();
   data.push(newData);
 
   localStorage.setItem("booking", JSON.stringify(data));
@@ -631,6 +680,8 @@ function booking() {
     if (el) el.disabled = true;
   });
 
+  updateDashboard();
+
   showToast("Pendaftaran Berhasil", "success");
 
   setTimeout(() => {
@@ -640,4 +691,60 @@ function booking() {
 
 window.booking = booking;
 
+updateDashboard();
 cekForm();
+
+window.booking = booking;
+
+cekForm();
+
+window.addEventListener("load", () => {
+  const loading = document.getElementById("loading-screen");
+  const app = document.getElementById("app");
+
+  if (app) app.classList.add("hidden");
+
+  setTimeout(() => {
+    if (loading) {
+      loading.style.opacity = "0";
+      loading.style.pointerEvents = "none";
+
+      setTimeout(() => {
+        loading.remove();
+
+        if (app) {
+          app.classList.remove("hidden");
+        }
+      }, 350);
+    } else {
+      if (app) app.classList.remove("hidden");
+    }
+  }, 1800);
+});
+
+function initCarousel() {
+  const track = document.getElementById("carousel-track");
+  const dots = document.querySelectorAll("#carousel-dots span");
+
+  if (!track || !dots.length) return;
+
+  let index = 0;
+  const total = dots.length;
+
+  function updateCarousel() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+
+    dots.forEach((dot) => dot.classList.remove("active"));
+    dots[index].classList.add("active");
+  }
+
+  updateCarousel();
+
+  setInterval(() => {
+    index = (index + 1) % total;
+    updateCarousel();
+  }, 3200);
+}
+
+window.addEventListener("load", initCarousel);
+
