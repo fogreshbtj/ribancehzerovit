@@ -8,24 +8,154 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+   
+   <svg role="img" aria-label="Mouth and eyes come from 9:00 and rotate clockwise into position, right eye blinks, then all parts rotate and merge into 3:00" class="smiley" viewBox="0 0 128 128" width="128px" height="128px">
+	<defs>
+		<clipPath id="smiley-eyes">
+			<circle class="smiley__eye1" cx="64" cy="64" r="8" transform="rotate(-40,64,64) translate(0,-56)" />
+			<circle class="smiley__eye2" cx="64" cy="64" r="8" transform="rotate(40,64,64) translate(0,-56)" />
+		</clipPath>
+		<linearGradient id="smiley-grad" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0%" stop-color="#000" />
+			<stop offset="100%" stop-color="#fff" />
+		</linearGradient>
+		<mask id="smiley-mask">
+			<rect x="0" y="0" width="128" height="128" fill="url(#smiley-grad)" />
+		</mask>
+	</defs>
+	<g stroke-linecap="round" stroke-width="12" stroke-dasharray="175.93 351.86">
+		<g>
+			<rect fill="hsl(193,90%,50%)" width="128" height="64" clip-path="url(#smiley-eyes)" />
+			<g fill="none" stroke="hsl(193,90%,50%)">
+				<circle class="smiley__mouth1" cx="64" cy="64" r="56" transform="rotate(180,64,64)" />
+				<circle class="smiley__mouth2" cx="64" cy="64" r="56" transform="rotate(0,64,64)" />
+			</g>
+		</g>
+		<g mask="url(#smiley-mask)">
+			<rect fill="hsl(223,90%,50%)" width="128" height="64" clip-path="url(#smiley-eyes)" />
+			<g fill="none" stroke="hsl(223,90%,50%)">
+				<circle class="smiley__mouth1" cx="64" cy="64" r="56" transform="rotate(180,64,64)" />
+				<circle class="smiley__mouth2" cx="64" cy="64" r="56" transform="rotate(0,64,64)" />
+			</g>
+		</g>
+	</g>
+</svg>
+   
+   <div id="loading-screen">
+  <div class="loading-wrap">
+    <div class="loading-logo">Zero Visit</div>
 
-  <div id="app">
+    <div class="loading-spinner">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="loading-text">Menyiapkan dashboard...</div>
+  </div>
+</div>
+
+  <div id="app" class="hidden">
     <main class="app">
       <div class="phone">
-
+         
+        <!-- HERO -->
         <section class="hero">
           <div class="hero-top">
             <div class="logo">Zero Visit</div>
             <div class="hero-badge">ONLINE</div>
           </div>
 
-          <h1>Layanan Kunjungan Online</h1>
+          <h1>Kunjungan Online Lebih Cepat</h1>
           <p>
-            Isi data kunjungan dengan lengkap untuk mendapatkan tiket kunjungan dan QR verifikasi.
+            Daftarkan kunjungan, dapatkan tiket digital, dan verifikasi QR secara instan.
           </p>
         </section>
 
-        <section class="content">
+        <!-- DASHBOARD -->
+        <section class="dashboard" id="dashboard-page">
+
+          <div class="stats-card glass">
+            <div class="stats-label">Jumlah booking hari ini</div>
+            <div class="stats-value" id="stat-booking">0</div>
+          </div>
+
+          <div class="shortcut-grid">
+            <button
+              class="shortcut-card glass"
+              type="button"
+              onclick="bukaForm()"
+            >
+              <div class="shortcut-icon">📋</div>
+              <div class="shortcut-title">Form Booking</div>
+            </button>
+
+            <button
+              class="shortcut-card glass"
+              type="button"
+              onclick="lihatTiket()"
+            >
+              <div class="shortcut-icon">🎫</div>
+              <div class="shortcut-title">Tiket Digital</div>
+            </button>
+
+            <button
+              class="shortcut-card glass"
+              type="button"
+              onclick="bukaForm(); setTimeout(() => document.getElementById('wbp').focus(), 250)"
+            >
+              <div class="shortcut-icon">🔍</div>
+              <div class="shortcut-title">Cari WBP</div>
+            </button>
+          </div>
+
+          <div class="banner-card">
+            <div class="carousel" id="carousel">
+              <div class="carousel-track" id="carousel-track">
+
+                <div class="carousel-slide">
+                  <span class="banner-badge">INFO</span>
+                  <h3>Kunjungan lebih cepat</h3>
+                  <p>
+                    Lengkapi data terlebih dahulu agar proses verifikasi lebih singkat.
+                  </p>
+                </div>
+
+                <div class="carousel-slide">
+                  <span class="banner-badge">ONLINE</span>
+                  <h3>Tiket tersimpan otomatis</h3>
+                  <p>
+                    Setelah booking berhasil, tiket dan QR akan langsung tersimpan.
+                  </p>
+                </div>
+
+                <div class="carousel-slide">
+                  <span class="banner-badge">UPDATE</span>
+                  <h3>Riwayat kunjungan tersedia</h3>
+                  <p>
+                    Lihat data booking terakhir langsung dari beranda aplikasi.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="carousel-dots" id="carousel-dots">
+              <span class="active"></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- FORM PAGE -->
+        <section class="content hidden" id="form-page">
+
+          <button class="back-btn" type="button" onclick="kembaliDashboard()">
+            ← Kembali
+          </button>
+
           <div class="form-card">
 
             <div class="field">
@@ -122,10 +252,6 @@
   <div id="toast" class="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
-  <!-- daftarWBP kamu taruh di file ini -->
-  <script src="wbp-data.js"></script>
-
   <script src="app.js"></script>
 </body>
 </html>
