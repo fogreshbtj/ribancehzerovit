@@ -4,62 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zero Visit — Kunjungan Online</title>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-   
-   <svg role="img" aria-label="Mouth and eyes come from 9:00 and rotate clockwise into position, right eye blinks, then all parts rotate and merge into 3:00" class="smiley" viewBox="0 0 128 128" width="128px" height="128px">
-	<defs>
-		<clipPath id="smiley-eyes">
-			<circle class="smiley__eye1" cx="64" cy="64" r="8" transform="rotate(-40,64,64) translate(0,-56)" />
-			<circle class="smiley__eye2" cx="64" cy="64" r="8" transform="rotate(40,64,64) translate(0,-56)" />
-		</clipPath>
-		<linearGradient id="smiley-grad" x1="0" y1="0" x2="0" y2="1">
-			<stop offset="0%" stop-color="#000" />
-			<stop offset="100%" stop-color="#fff" />
-		</linearGradient>
-		<mask id="smiley-mask">
-			<rect x="0" y="0" width="128" height="128" fill="url(#smiley-grad)" />
-		</mask>
-	</defs>
-	<g stroke-linecap="round" stroke-width="12" stroke-dasharray="175.93 351.86">
-		<g>
-			<rect fill="hsl(193,90%,50%)" width="128" height="64" clip-path="url(#smiley-eyes)" />
-			<g fill="none" stroke="hsl(193,90%,50%)">
-				<circle class="smiley__mouth1" cx="64" cy="64" r="56" transform="rotate(180,64,64)" />
-				<circle class="smiley__mouth2" cx="64" cy="64" r="56" transform="rotate(0,64,64)" />
-			</g>
-		</g>
-		<g mask="url(#smiley-mask)">
-			<rect fill="hsl(223,90%,50%)" width="128" height="64" clip-path="url(#smiley-eyes)" />
-			<g fill="none" stroke="hsl(223,90%,50%)">
-				<circle class="smiley__mouth1" cx="64" cy="64" r="56" transform="rotate(180,64,64)" />
-				<circle class="smiley__mouth2" cx="64" cy="64" r="56" transform="rotate(0,64,64)" />
-			</g>
-		</g>
-	</g>
-</svg>
-   
-   <div id="loading-screen">
-  <div class="loading-wrap">
-    <div class="loading-logo">Zero Visit</div>
 
-    <div class="loading-spinner">
-      <span></span>
-      <span></span>
-      <span></span>
+  <div id="loading-screen">
+    <div class="loading-wrap">
+      <div class="loading-logo">Zero Visit</div>
+
+      <div class="loading-spinner">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="loading-text">Menyiapkan dashboard...</div>
     </div>
-
-    <div class="loading-text">Menyiapkan dashboard...</div>
   </div>
-</div>
 
   <div id="app" class="hidden">
     <main class="app">
       <div class="phone">
-         
-        <!-- HERO -->
+
         <section class="hero">
           <div class="hero-top">
             <div class="logo">Zero Visit</div>
@@ -67,9 +33,7 @@
           </div>
 
           <h1>Kunjungan Online Lebih Cepat</h1>
-          <p>
-            Daftarkan kunjungan, dapatkan tiket digital, dan verifikasi QR secara instan.
-          </p>
+          <p>Daftarkan kunjungan, dapatkan tiket digital, dan verifikasi QR secara instan.</p>
         </section>
 
         <!-- DASHBOARD -->
@@ -81,20 +45,12 @@
           </div>
 
           <div class="shortcut-grid">
-            <button
-              class="shortcut-card glass"
-              type="button"
-              onclick="bukaForm()"
-            >
+            <button class="shortcut-card glass" type="button" onclick="bukaForm()">
               <div class="shortcut-icon">📋</div>
               <div class="shortcut-title">Form Booking</div>
             </button>
 
-            <button
-              class="shortcut-card glass"
-              type="button"
-              onclick="lihatTiket()"
-            >
+            <button class="shortcut-card glass" type="button" onclick="lihatTiket()">
               <div class="shortcut-icon">🎫</div>
               <div class="shortcut-title">Tiket Digital</div>
             </button>
@@ -110,31 +66,25 @@
           </div>
 
           <div class="banner-card">
-            <div class="carousel" id="carousel">
+            <div class="carousel">
               <div class="carousel-track" id="carousel-track">
 
                 <div class="carousel-slide">
                   <span class="banner-badge">INFO</span>
                   <h3>Kunjungan lebih cepat</h3>
-                  <p>
-                    Lengkapi data terlebih dahulu agar proses verifikasi lebih singkat.
-                  </p>
+                  <p>Lengkapi data terlebih dahulu agar proses verifikasi lebih singkat.</p>
                 </div>
 
                 <div class="carousel-slide">
                   <span class="banner-badge">ONLINE</span>
                   <h3>Tiket tersimpan otomatis</h3>
-                  <p>
-                    Setelah booking berhasil, tiket dan QR akan langsung tersimpan.
-                  </p>
+                  <p>Setelah booking berhasil, tiket dan QR akan langsung tersimpan.</p>
                 </div>
 
                 <div class="carousel-slide">
                   <span class="banner-badge">UPDATE</span>
                   <h3>Riwayat kunjungan tersedia</h3>
-                  <p>
-                    Lihat data booking terakhir langsung dari beranda aplikasi.
-                  </p>
+                  <p>Lihat data booking terakhir langsung dari beranda aplikasi.</p>
                 </div>
 
               </div>
@@ -147,9 +97,13 @@
             </div>
           </div>
 
+          <div class="history-card" id="last-visit">
+            <div class="history-empty">Belum ada riwayat kunjungan</div>
+          </div>
+
         </section>
 
-        <!-- FORM PAGE -->
+        <!-- FORM -->
         <section class="content hidden" id="form-page">
 
           <button class="back-btn" type="button" onclick="kembaliDashboard()">
@@ -160,22 +114,12 @@
 
             <div class="field">
               <label for="nik">NIK</label>
-              <input
-                id="nik"
-                type="text"
-                inputmode="numeric"
-                maxlength="16"
-                placeholder="Masukkan 16 digit NIK"
-              />
+              <input id="nik" type="text" maxlength="16" placeholder="Masukkan 16 digit NIK" />
             </div>
 
             <div class="field">
               <label for="nama">Nama Pengunjung</label>
-              <input
-                id="nama"
-                type="text"
-                placeholder="Masukkan nama lengkap"
-              />
+              <input id="nama" type="text" placeholder="Masukkan nama lengkap" />
             </div>
 
             <div class="field">
@@ -191,54 +135,22 @@
               <label for="relasi">Hubungan dengan WBP</label>
               <select id="relasi">
                 <option value="">Pilih hubungan</option>
-                <option value="Ayah">Ayah</option>
-                <option value="Ibu">Ibu</option>
-                <option value="Adik">Adik</option>
-                <option value="Kakak">Kakak</option>
-                <option value="Saudara Jauh">Saudara Jauh</option>
-                <option value="Suami/Istri">Suami/Istri</option>
-                <option value="Anak">Anak</option>
-                <option value="Teman">Teman</option>
+                <option>Ayah</option>
+                <option>Ibu</option>
+                <option>Adik</option>
+                <option>Kakak</option>
+                <option>Teman</option>
+                <option>Suami/Istri</option>
               </select>
             </div>
 
-            <div class="pengikut">
-              <div class="pengikut-title">Jumlah Pengikut</div>
+           <div class="field autocomplete-wrap">
+  <label for="wbp">Nama WBP</label>
+  <input id="wbp" placeholder="Cari nama WBP" autocomplete="off" />
+  <div id="wbp-suggest" class="wbp-suggest hidden"></div>
+</div>
 
-              <div class="pengikut-row">
-                <span>Laki-Laki</span>
-                <input id="ikut_l" type="number" min="0" value="0" />
-              </div>
-
-              <div class="pengikut-row">
-                <span>Perempuan</span>
-                <input id="ikut_p" type="number" min="0" value="0" />
-              </div>
-
-              <div class="pengikut-row">
-                <span>Anak-Anak</span>
-                <input id="ikut_a" type="number" min="0" value="0" />
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="wbp">Nama WBP</label>
-              <input
-                id="wbp"
-                list="wbp-list"
-                placeholder="Cari nama WBP"
-                autocomplete="off"
-              />
-              <datalist id="wbp-list"></datalist>
-            </div>
-
-            <button
-              id="btn-daftar"
-              class="btn"
-              type="button"
-              onclick="booking()"
-              disabled
-            >
+            <button id="btn-daftar" class="btn" type="button" onclick="booking()" disabled>
               Daftarkan
             </button>
 
@@ -252,6 +164,7 @@
   <div id="toast" class="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
