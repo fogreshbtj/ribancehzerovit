@@ -447,21 +447,68 @@ const daftarWBP = [
   "LUKMANUL HAKIM BIN Alm. RAMLAN"
 ]
 
-const wbpInput = document.getElementById("wbp");
-const wbpList = document.getElementById("wbp-list");
-const btnDaftar = document.getElementById("btn-daftar");
-const toast = document.getElementById("toast");
+let wbpInput = null;
+let suggestBox = null;
+let btnDaftar = null;
+let toast = null;
 
 const formIds = ["nik", "nama", "gender", "relasi", "wbp"];
 
-if (typeof daftarWBP !== "undefined" && wbpList) {
-  daftarWBP.forEach((nama) => {
-    const option = document.createElement("option");
-    option.value = nama;
-    wbpList.appendChild(option);
-  });
+let initialAppHTML = "";
+let carouselTimer = null;
+
+/* =========================
+   BIND ELEMENTS
+========================= */
+function bindAppElements() {
+  wbpInput = document.getElementById("wbp");
+  suggestBox = document.getElementById("wbp-suggest");
+  btnDaftar = document.getElementById("btn-daftar");
+  toast = document.getElementById("toast");
 }
 
+function initFormBindings() {
+  bindAppElements();
+
+  formIds.forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    el.addEventListener("input", cekForm);
+    el.addEventListener("change", cekForm);
+  });
+
+  if (wbpInput) {
+    wbpInput.addEventListener("input", (e) => {
+      renderSuggestions(e.target.value);
+      cekForm();
+    });
+  }
+
+  if (suggestBox) {
+    suggestBox.addEventListener("click", (e) => {
+      const item = e.target.closest(".wbp-item");
+      if (!item) return;
+
+      wbpInput.value = item.dataset.name;
+      suggestBox.classList.add("hidden");
+      cekForm();
+    });
+  }
+}
+
+/* =========================
+   GLOBAL CLICK
+========================= */
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".autocomplete-wrap")) {
+    suggestBox?.classList.add("hidden");
+  }
+});
+
+/* =========================
+   TOAST
+========================= */
 function showToast(message, type = "error") {
   if (!toast) return;
 
@@ -475,9 +522,11 @@ function showToast(message, type = "error") {
   }, 2200);
 }
 
+/* =========================
+   BASIC HELPERS
+========================= */
 function getValue(id) {
-  const el = document.getElementById(id);
-  return el ? el.value.trim() : "";
+  return document.getElementById(id)?.value.trim() || "";
 }
 
 function getBookingList() {
@@ -485,99 +534,199 @@ function getBookingList() {
 }
 
 function getTodayBookingCount() {
-  const today = new Date().toDateString();
+  const now = new Date();
+
+  const todayKey =
+    now.getFullYear().toString() +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    String(now.getDate()).padStart(2, "0");
 
   return getBookingList().filter((item) => {
-    const time = Number(String(item.id).replace("ZV-", ""));
-    if (!time) return false;
-    return new Date(time).toDateString() === today;
+    if (!item.id || typeof item.id !== "string") return false;
+
+    const match = item.id.match(/^RTN-(\d{8})/);
+    if (!match) return false;
+
+    return match[1] === todayKey;
   }).length;
 }
 
+/* =========================
+   DASHBOARD
+========================= */
 function updateDashboard() {
-  const statBooking = document.getElementById("stat-booking");
+  const stat = document.getElementById("stat-booking");
   const lastVisit = document.getElementById("last-visit");
 
-  if (statBooking) {
-    statBooking.textContent = getTodayBookingCount();
+  if (stat) {
+    stat.textContent = getTodayBookingCount();
   }
 
-  if (lastVisit) {
-    const list = getBookingList();
+  if (!lastVisit) return;
 
-    if (!list.length) {
-      lastVisit.innerHTML = `
-        <div class="history-empty">
-          Belum ada riwayat kunjungan
-        </div>
-      `;
-      return;
+  const list = getBookingList();
+
+  if (!list.length) {
+    lastVisit.innerHTML = `<div class="history-empty">Belum ada riwayat kunjungan</div>`;
+    return;
+  }
+
+  const last = list[list.length - 1];
+
+  lastVisit.innerHTML = `
+    <div class="history-item">
+      <div class="history-main">
+        <strong>${last.nama}</strong>
+        <span>${last.wbp}</span>
+      </div>
+      <div class="history-badge">${last.status}</div>
+    </div>
+  `;
+}
+
+/* =========================
+   FORM VALIDATION
+========================= */
+function cekForm() {
+  const valid =
+    /^\d{16}$/.test(getValue("nik")) &&
+    getValue("nama") &&
+    getValue("gender") &&
+    getValue("relasi") &&
+    getValue("wbp");
+
+  if (btnDaftar) btnDaftar.disabled = !valid;
+}
+
+/* =========================
+   FAST AUTOCOMPLETE
+========================= */
+function renderSuggestions(keyword) {
+  if (!suggestBox || !wbpInput) return;
+
+  const q = keyword.trim().toLowerCase();
+
+  if (!q) {
+    suggestBox.classList.add("hidden");
+    suggestBox.innerHTML = "";
+    return;
+  }
+
+  const results = daftarWBP
+    .filter((nama) => nama.toLowerCase().includes(q))
+    .slice(0, 8);
+
+  if (!results.length) {
+    suggestBox.classList.add("hidden");
+    suggestBox.innerHTML = "";
+    return;
+  }
+
+  suggestBox.innerHTML = results
+    .map(
+      (nama) =>
+        `<div class="wbp-item" data-name="${nama.replace(/"/g, "&quot;")}">${nama}</div>`
+    )
+    .join("");
+
+  suggestBox.classList.remove("hidden");
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+function bukaForm() {
+  document.getElementById("dashboard-page")?.classList.add("hidden");
+  document.getElementById("form-page")?.classList.remove("hidden");
+}
+
+function kembaliDashboard() {
+  document.getElementById("form-page")?.classList.add("hidden");
+  document.getElementById("dashboard-page")?.classList.remove("hidden");
+  updateDashboard();
+}
+
+/* =========================
+   QR DOWNLOAD
+========================= */
+function downloadQR() {
+  const ticket = document.getElementById("ticket-capture");
+  if (!ticket || typeof html2canvas === "undefined") return;
+
+  const actions = ticket.querySelector(".ticket-actions");
+
+  if (actions) {
+    actions.style.display = "none";
+  }
+
+  html2canvas(ticket, {
+    scale: 4,
+    useCORS: true,
+    backgroundColor: "#ffffff"
+  }).then((canvas) => {
+    if (actions) {
+      actions.style.display = "";
     }
 
-    const last = list[list.length - 1];
-
-    lastVisit.innerHTML = `
-      <div class="history-item">
-        <div class="history-main">
-          <strong>${last.nama}</strong>
-          <span>${last.wbp}</span>
-        </div>
-        <div class="history-badge">${last.status}</div>
-      </div>
-    `;
-  }
+    const link = document.createElement("a");
+    link.download = "ticket-zero-visit.png";
+    link.href = canvas.toDataURL("image/png", 1.0);
+    link.click();
+  }).catch(() => {
+    if (actions) {
+      actions.style.display = "";
+    }
+  });
 }
 
-function cekForm() {
-  const nik = getValue("nik");
-  const nama = getValue("nama");
-  const gender = getValue("gender");
-  const relasi = getValue("relasi");
-  const wbp = getValue("wbp");
+/* =========================
+   BACK TO HOME
+========================= */
+function kembaliBeranda() {
+  const app = document.getElementById("app");
+  if (!app || !initialAppHTML) return;
 
-  const nikValid = /^\d{16}$/.test(nik);
+  app.innerHTML = initialAppHTML;
 
-  if (!btnDaftar) return;
-
-  btnDaftar.disabled = !(nikValid && nama && gender && relasi && wbp);
+  initFormBindings();
+  updateDashboard();
+  initCarousel();
+  cekForm();
 }
 
-formIds.forEach((id) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  el.addEventListener("input", cekForm);
-  el.addEventListener("change", cekForm);
-});
-
+/* =========================
+   TICKET
+========================= */
 function buatTicket(data) {
   const app = document.getElementById("app");
-
   if (!app) return;
 
   app.innerHTML = `
     <main class="app">
       <div class="phone">
         <section class="ticket-page">
-          <div class="ticket">
+          <div class="ticket" id="ticket-capture">
+
+            <div class="ticket-watermark">ZERO</div>
+
             <div class="ticket-top">
               <div class="ticket-brand">Zero Visit</div>
               <div class="ticket-sub">Tiket Kunjungan Online</div>
             </div>
 
             <div class="ticket-status">BOOKED</div>
-
             <div class="ticket-number">${data.id}</div>
 
+            <div class="ticket-glass">
+              <div class="ticket-glass-label">Nama Pengunjung</div>
+              <div class="ticket-glass-value">${data.nama}</div>
+            </div>
+
             <div class="ticket-detail">
+
               <div class="ticket-row">
                 <span>NIK</span>
                 <strong>${data.nik}</strong>
-              </div>
-
-              <div class="ticket-row">
-                <span>Nama Pengunjung</span>
-                <strong>${data.nama}</strong>
               </div>
 
               <div class="ticket-row">
@@ -595,14 +744,6 @@ function buatTicket(data) {
                 <strong>${data.wbp}</strong>
               </div>
 
-              <div class="ticket-row">
-                <span>Pengikut</span>
-                <strong>
-                  L: ${data.pengikut.laki_laki},
-                  P: ${data.pengikut.perempuan},
-                  A: ${data.pengikut.anak}
-                </strong>
-              </div>
             </div>
 
             <div class="ticket-divider"></div>
@@ -612,14 +753,23 @@ function buatTicket(data) {
             </div>
 
             <div class="ticket-note">
-              Tunjukkan QR ini saat kunjungan
+              Tunjukkan QR ini saat verifikasi kunjungan
+            </div>
+
+            <div class="ticket-footer">
+              Dokumen digital resmi • Zero Visit
             </div>
 
             <div class="ticket-actions">
-              <button class="btn" onclick="window.location.reload()">
+              <button class="btn-secondary" type="button" onclick="downloadQR()">
+                Download QR
+              </button>
+
+              <button class="btn" type="button" onclick="kembaliBeranda()">
                 Kembali ke Beranda
               </button>
             </div>
+
           </div>
         </section>
       </div>
@@ -629,122 +779,123 @@ function buatTicket(data) {
   if (typeof QRCode !== "undefined") {
     QRCode.toCanvas(
       document.getElementById("ticket-qr"),
-      JSON.stringify(data)
+      JSON.stringify(data),
+      {
+        width: 185,
+        margin: 2
+      }
     );
   }
 }
 
+/* =========================
+   BOOKING
+========================= */
 function booking() {
-  const nik = getValue("nik");
-  const nama = getValue("nama");
-  const gender = getValue("gender");
-  const relasi = getValue("relasi");
-  const wbp = getValue("wbp");
+  const data = {
+    id: (() => {
+      const now = new Date();
 
-  if (!nik || !nama || !gender || !relasi || !wbp) {
-    showToast("Mohon Lengkapi Data");
-    return;
-  }
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, "0");
+      const dd = String(now.getDate()).padStart(2, "0");
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mi = String(now.getMinutes()).padStart(2, "0");
 
-  if (!/^\d{16}$/.test(nik)) {
-    showToast("NIK Belum Lengkap");
-    return;
-  }
-
-  const newData = {
-    id: "ZV-" + Date.now(),
-    nik,
-    nama,
-    gender,
-    relasi,
-    pengikut: {
-      laki_laki: document.getElementById("ikut_l")?.value || "0",
-      perempuan: document.getElementById("ikut_p")?.value || "0",
-      anak: document.getElementById("ikut_a")?.value || "0"
-    },
-    wbp,
+      return `RTN-${yyyy}${mm}${dd}${hh}${mi}`;
+    })(),
+    nik: getValue("nik"),
+    nama: getValue("nama"),
+    gender: getValue("gender"),
+    relasi: getValue("relasi"),
+    wbp: getValue("wbp"),
     status: "BOOKED"
   };
 
-  const data = getBookingList();
-  data.push(newData);
+  const list = getBookingList();
+  list.push(data);
 
-  localStorage.setItem("booking", JSON.stringify(data));
-  localStorage.setItem("ticket", JSON.stringify(newData));
+  localStorage.setItem("booking", JSON.stringify(list));
+  localStorage.setItem("ticket", JSON.stringify(data));
 
-  btnDaftar.disabled = true;
-  btnDaftar.textContent = "Sudah Terdaftar";
-
-  formIds.concat(["ikut_l", "ikut_p", "ikut_a"]).forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.disabled = true;
-  });
-
-  updateDashboard();
-
-  showToast("Pendaftaran Berhasil", "success");
+  showToast("Pendaftaran berhasil", "success");
 
   setTimeout(() => {
-    buatTicket(newData);
-  }, 600);
+    buatTicket(data);
+  }, 450);
 }
 
-window.booking = booking;
+function lihatTiket() {
+  const ticket = JSON.parse(localStorage.getItem("ticket"));
 
-updateDashboard();
-cekForm();
+  if (!ticket) {
+    showToast("Belum ada tiket");
+    return;
+  }
 
-window.booking = booking;
+  buatTicket(ticket);
+}
 
-cekForm();
-
-window.addEventListener("load", () => {
-  const loading = document.getElementById("loading-screen");
-  const app = document.getElementById("app");
-
-  if (app) app.classList.add("hidden");
-
-  setTimeout(() => {
-    if (loading) {
-      loading.style.opacity = "0";
-      loading.style.pointerEvents = "none";
-
-      setTimeout(() => {
-        loading.remove();
-
-        if (app) {
-          app.classList.remove("hidden");
-        }
-      }, 350);
-    } else {
-      if (app) app.classList.remove("hidden");
-    }
-  }, 1800);
-});
-
+/* =========================
+   CAROUSEL
+========================= */
 function initCarousel() {
   const track = document.getElementById("carousel-track");
   const dots = document.querySelectorAll("#carousel-dots span");
 
   if (!track || !dots.length) return;
 
-  let index = 0;
-  const total = dots.length;
-
-  function updateCarousel() {
-    track.style.transform = `translateX(-${index * 100}%)`;
-
-    dots.forEach((dot) => dot.classList.remove("active"));
-    dots[index].classList.add("active");
+  if (carouselTimer) {
+    clearInterval(carouselTimer);
   }
 
-  updateCarousel();
+  let index = 0;
 
-  setInterval(() => {
-    index = (index + 1) % total;
-    updateCarousel();
+  carouselTimer = setInterval(() => {
+    index = (index + 1) % dots.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+
+    dots.forEach((d) => d.classList.remove("active"));
+    dots[index].classList.add("active");
   }, 3200);
 }
 
-window.addEventListener("load", initCarousel);
+/* =========================
+   LOADING
+========================= */
+window.addEventListener("load", () => {
+  const loading = document.getElementById("loading-screen");
+  const app = document.getElementById("app");
+
+  initialAppHTML = document.getElementById("app")?.innerHTML || "";
+
+  initFormBindings();
+
+  setTimeout(() => {
+    if (loading) {
+      loading.style.opacity = "0";
+
+      setTimeout(() => {
+        loading.remove();
+        app?.classList.remove("hidden");
+      }, 350);
+    } else {
+      app?.classList.remove("hidden");
+    }
+  }, 1500);
+
+  updateDashboard();
+  initCarousel();
+  cekForm();
+});
+
+/* =========================
+   GLOBAL
+========================= */
+window.bukaForm = bukaForm;
+window.kembaliDashboard = kembaliDashboard;
+window.booking = booking;
+window.lihatTiket = lihatTiket;
+window.downloadQR = downloadQR;
+window.kembaliBeranda = kembaliBeranda;
 
