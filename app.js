@@ -452,7 +452,7 @@ const GITHUB_CONFIG = {
   repo: "zerovitadmin",
   branch: "main",
   path: "data/booking.json",
-  token: "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"
+  token: "PASTE_TOKEN_DI_BROWSER_SAJA"
 };
 
 let wbpInput = null;
