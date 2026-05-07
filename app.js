@@ -1051,10 +1051,16 @@ async function booking() {
   try {
     const res = await fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
       body: JSON.stringify(data)
     });
 
-    const result = await res.json();
+    const text = await res.text();
+    console.log("Apps Script response:", text);
+
+    const result = JSON.parse(text);
 
     if (!result.success) {
       throw new Error(result.message || "Gagal kirim");
