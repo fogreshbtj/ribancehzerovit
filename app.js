@@ -449,6 +449,7 @@ const daftarWBP = [
 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyzX45t9KGcVhm8TMrxhJp9Q0Pv1cCGMLawaFYLA2enpx3hSP8qWExl9rbb75CxF7Mzw/exec";
 
+let isSubmitting = false;
 let wbpInput = null;
 let suggestBox = null;
 let btnDaftar = null;
@@ -1010,6 +1011,15 @@ function buatTicket(data) {
    BOOKING
 ========================= */
 async function booking() {
+  if (isSubmitting) return;
+
+  isSubmitting = true;
+
+  if (btnDaftar) {
+    btnDaftar.disabled = true;
+    btnDaftar.textContent = "Mengirim...";
+  }
+
   const data = {
     id: (() => {
       const now = new Date();
@@ -1019,8 +1029,9 @@ async function booking() {
       const dd = String(now.getDate()).padStart(2, "0");
       const hh = String(now.getHours()).padStart(2, "0");
       const mi = String(now.getMinutes()).padStart(2, "0");
+      const ss = String(now.getSeconds()).padStart(2, "0");
 
-      return `RTN-${yyyy}${mm}${dd}${hh}${mi}`;
+      return `RTN-${yyyy}${mm}${dd}${hh}${mi}${ss}`;
     })(),
 
     nik: getValue("nik"),
@@ -1058,8 +1069,6 @@ async function booking() {
     });
 
     const text = await res.text();
-    console.log("Apps Script response:", text);
-
     const result = JSON.parse(text);
 
     if (!result.success) {
@@ -1081,6 +1090,13 @@ async function booking() {
   } catch (err) {
     console.error(err);
     showToast("Gagal kirim data");
+
+    isSubmitting = false;
+
+    if (btnDaftar) {
+      btnDaftar.textContent = "Daftarkan";
+      cekForm();
+    }
   }
 }
 
