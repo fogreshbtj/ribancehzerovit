@@ -447,13 +447,7 @@ const daftarWBP = [
   "LUKMANUL HAKIM BIN Alm. RAMLAN"
 ]
 
-const GITHUB_CONFIG = {
-  owner: "fogreshbtj",
-  repo: "zerovitadmin",
-  branch: "main",
-  path: "data/booking.json",
-  token: "PASTE_TOKEN_DI_BROWSER_SAJA"
-};
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyzX45t9KGcVhm8TMrxhJp9Q0Pv1cCGMLawaFYLA2enpx3hSP8qWExl9rbb75CxF7Mzw/exec";
 
 let wbpInput = null;
 let suggestBox = null;
@@ -1055,7 +1049,16 @@ async function booking() {
   };
 
   try {
-    await saveBookingToGithub(data);
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (!result.success) {
+      throw new Error(result.message || "Gagal kirim");
+    }
 
     const list = getBookingList();
     list.push(data);
