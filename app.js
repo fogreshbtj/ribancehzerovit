@@ -449,11 +449,11 @@ const daftarWBP = [
 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyzX45t9KGcVhm8TMrxhJp9Q0Pv1cCGMLawaFYLA2enpx3hSP8qWExl9rbb75CxF7Mzw/exec";
 
-let isSubmitting = false;
 let wbpInput = null;
 let suggestBox = null;
 let btnDaftar = null;
 let toast = null;
+let isSubmitting = false;
 
 const formIds = [
   "nik",
