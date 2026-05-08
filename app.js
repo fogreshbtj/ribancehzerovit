@@ -1036,6 +1036,7 @@ async function booking() {
     })(),
 
     nik: getValue("nik"),
+    alamat: getValue("alamat"),
     nama: getValue("nama"),
     gender: getValue("gender"),
     relasi: getValue("relasi"),
