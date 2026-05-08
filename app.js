@@ -1165,32 +1165,42 @@ function initCarousel() {
 /* =========================
    LOADING
 ========================= */
-window.addEventListener("load", () => {updateScheduleStatus();
+window.addEventListener("load", () => {
+  updateScheduleStatus();
+
   const loading = document.getElementById("loading-screen");
   const app = document.getElementById("app");
 
   initialAppHTML = document.getElementById("app")?.innerHTML || "";
 
   initFormBindings();
-
-  setTimeout(() => {
-    if (loading) {
-      loading.style.opacity = "0";
-
-      setTimeout(() => {
-        loading.remove();
-        app?.classList.remove("hidden");
-      }, 350);
-    } else {
-      app?.classList.remove("hidden");
-    }
-  }, 1500);
-
   updateDashboard();
   initCarousel();
   cekForm();
-});
 
+  setTimeout(() => {
+    if (loading) {
+      loading.classList.add("hide");
+
+      setTimeout(() => {
+        loading.remove();
+
+        app?.classList.remove("hidden");
+
+        requestAnimationFrame(() => {
+          app?.classList.add("show");
+        });
+      }, 420);
+
+    } else {
+      app?.classList.remove("hidden");
+
+      requestAnimationFrame(() => {
+        app?.classList.add("show");
+      });
+    }
+  }, 1500);
+});
 /* =========================
    GLOBAL
 ========================= */
