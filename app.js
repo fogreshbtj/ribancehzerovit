@@ -447,7 +447,7 @@ const daftarWBP = [
   "LUKMANUL HAKIM BIN Alm. RAMLAN"
 ]
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyzX45t9KGcVhm8TMrxhJp9Q0Pv1cCGMLawaFYLA2enpx3hSP8qWExl9rbb75CxF7Mzw/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTgIZAX-68JvLmBxrgBnlJ-lt-XE4hgj47PK9WSDmKmask19Bk-BUifZjZnVc0XRLk/exec";
 
 let wbpInput = null;
 let suggestBox = null;
