@@ -1179,10 +1179,6 @@ window.addEventListener("load", () => {
   cekForm();
 
   setTimeout(() => {
-    if (loading) {
-      loading.classList.add("hide");
-
-      setTimeout(() => {
   if (loading) {
     app?.classList.remove("hidden");
 
