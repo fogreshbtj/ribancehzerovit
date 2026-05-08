@@ -652,3 +652,52 @@ select{
   border-radius:12px;
   font-weight:700;
 }
+
+.schedule-card{
+  margin-bottom:14px;
+  padding:18px;
+  border-radius:22px;
+}
+
+.schedule-title{
+  font-size:16px;
+  font-weight:800;
+  color:#14213d;
+  margin-bottom:14px;
+  line-height:1.4;
+}
+
+.schedule-row{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.schedule-row + .schedule-row{
+  margin-top:12px;
+}
+
+.schedule-tag{
+  min-width:58px;
+  text-align:center;
+  font-size:12px;
+  font-weight:800;
+  padding:6px 10px;
+  border-radius:999px;
+}
+
+.schedule-tag.open{
+  background:#eef7ff;
+  color:#0b5cab;
+}
+
+.schedule-tag.close{
+  background:#fff1f2;
+  color:#be123c;
+}
+
+.schedule-text{
+  font-size:14px;
+  color:#334155;
+  line-height:1.55;
+}
