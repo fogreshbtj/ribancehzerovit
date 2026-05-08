@@ -657,18 +657,30 @@ select{
   margin-bottom:16px;
   padding:18px;
   border-radius:22px;
+  border:1px solid rgba(11,92,171,.08);
+  border-left:5px solid #0b5cab;
+  background:linear-gradient(135deg, rgba(238,247,255,.96), rgba(255,255,255,.98));
+}
+
+.schedule-topline{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(11,92,171,.08);
 }
 
 .schedule-head{
   display:flex;
   align-items:center;
   gap:12px;
-  margin-bottom:14px;
 }
 
 .schedule-icon{
-  width:42px;
-  height:42px;
+  width:50px;
+  height:50px;
   border-radius:14px;
   display:flex;
   align-items:center;
@@ -678,8 +690,10 @@ select{
 }
 
 .schedule-title{
-  font-size:16px;
+  font-size:18px;
   font-weight:800;
+  margin-left:7px;
+  justify-content:center; 
   color:#14213d;
   line-height:1.35;
 }
@@ -688,6 +702,22 @@ select{
   font-size:12px;
   color:#64748b;
   margin-top:2px;
+}
+
+.schedule-live{
+  font-size:13px;
+  font-weight:800;
+  padding:7px 10px;
+  margin-top:10px; 
+  border-radius:999px;
+  background:#eef7ff;
+  color:#0b5cab;
+  white-space:nowrap;
+}
+
+.schedule-live.closed{
+  background:#fff1f2;
+  color:#be123c;
 }
 
 .schedule-row{
@@ -703,7 +733,7 @@ select{
 .schedule-tag{
   min-width:58px;
   text-align:center;
-  font-size:12px;
+  font-size:14px;
   font-weight:800;
   padding:6px 10px;
   border-radius:999px;
@@ -720,7 +750,7 @@ select{
 }
 
 .schedule-text{
-  font-size:14px;
+  font-size:15px;
   color:#334155;
   line-height:1.55;
 }
