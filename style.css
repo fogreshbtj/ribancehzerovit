@@ -99,15 +99,15 @@ body{
 }
 
 .hero-badge{
-  width:70px;
-  height:70px;
-  border-radius:16px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
+  width:75px;
+  height:75px;
+  padding:0;
+  background:transparent;
+  border:none;
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:0;
   overflow:hidden;
 }
 
