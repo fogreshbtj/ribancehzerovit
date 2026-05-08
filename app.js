@@ -457,6 +457,7 @@ let isSubmitting = false;
 
 const formIds = [
   "nik",
+  "alamat",
   "nama",
   "gender",
   "relasi",
