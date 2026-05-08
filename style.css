@@ -35,7 +35,9 @@ body{
   position:fixed;
   inset:0;
   z-index:99999;
-  background:linear-gradient(135deg,#0b5cab,#0a3f7c);
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.06), transparent 38%),
+    linear-gradient(145deg,#0b5cab,#082f61 55%,#051f42);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -45,35 +47,68 @@ body{
 .loading-wrap{
   text-align:center;
   color:#fff;
+  width:100%;
+  max-width:320px;
+  padding:0 22px;
+}
+
+.loading-mascot{
+  width:104px;
+  height:auto;
+  display:block;
+  margin:0 auto 10px;
+  filter:drop-shadow(0 8px 22px rgba(0,0,0,.22));
+}
+
+.loading-emblem{
+  width:36px;
+  height:36px;
+  display:block;
+  margin:0 auto 10px;
+  object-fit:contain;
+  opacity:.95;
 }
 
 .loading-logo{
-  font-size:24px;
+  font-size:28px;
   font-weight:800;
-  margin-top:14px;
-  margin-bottom:16px;
+  letter-spacing:.02em;
+  margin-bottom:6px;
+}
+
+.loading-subtitle{
+  font-size:13px;
+  line-height:1.45;
+  opacity:.88;
+  margin-bottom:18px;
 }
 
 .loading-spinner{
   display:flex;
   justify-content:center;
   gap:8px;
+  margin-bottom:14px;
 }
 
 .loading-spinner span{
-  width:10px;
-  height:10px;
+  width:9px;
+  height:9px;
   border-radius:50%;
   background:#fff;
   animation:bounce 1s infinite ease-in-out;
 }
 
-.loading-spinner span:nth-child(2){ animation-delay:.15s; }
-.loading-spinner span:nth-child(3){ animation-delay:.3s; }
+.loading-spinner span:nth-child(2){
+  animation-delay:.15s;
+}
+
+.loading-spinner span:nth-child(3){
+  animation-delay:.3s;
+}
 
 .loading-text{
-  margin-top:8px;
-  font-size:15px;
+  font-size:12px;
+  opacity:.78;
 }
 
 @keyframes bounce{
