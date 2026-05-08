@@ -1179,26 +1179,22 @@ window.addEventListener("load", () => {
   cekForm();
 
   setTimeout(() => {
-  if (loading) {
-    app?.classList.remove("hidden");
+    if (!app) return;
+
+    app.classList.remove("hidden");
 
     requestAnimationFrame(() => {
-      app?.classList.add("show");
+      app.classList.add("show");
+    });
+
+    if (loading) {
       loading.classList.add("hide");
 
       setTimeout(() => {
         loading.remove();
       }, 420);
-    });
-
-  } else {
-    app?.classList.remove("hidden");
-
-    requestAnimationFrame(() => {
-      app?.classList.add("show");
-    });
-  }
-}, 1500);
+    }
+  }, 1100);
 });
 /* =========================
    GLOBAL
