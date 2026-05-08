@@ -1183,23 +1183,26 @@ window.addEventListener("load", () => {
       loading.classList.add("hide");
 
       setTimeout(() => {
+  if (loading) {
+    app?.classList.remove("hidden");
+
+    requestAnimationFrame(() => {
+      app?.classList.add("show");
+      loading.classList.add("hide");
+
+      setTimeout(() => {
         loading.remove();
-
-        app?.classList.remove("hidden");
-
-        requestAnimationFrame(() => {
-          app?.classList.add("show");
-        });
       }, 420);
+    });
 
-    } else {
-      app?.classList.remove("hidden");
+  } else {
+    app?.classList.remove("hidden");
 
-      requestAnimationFrame(() => {
-        app?.classList.add("show");
-      });
-    }
-  }, 1500);
+    requestAnimationFrame(() => {
+      app?.classList.add("show");
+    });
+  }
+}, 1500);
 });
 /* =========================
    GLOBAL
