@@ -1133,10 +1133,39 @@ function initCarousel() {
   }, 3200);
 }
 
+    function updateScheduleStatus() {
+  const badge = document.getElementById("schedule-status");
+  if (!badge) return;
+
+  const now = new Date();
+
+  const wib = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Jakarta" })
+  );
+
+  const day = wib.getDay();   // 0 = Minggu
+  const hour = wib.getHours();
+  const minute = wib.getMinutes();
+
+  const current = hour * 60 + minute;
+  const open = 9 * 60;
+  const close = 12 * 60;
+
+  const isOpen = day >= 1 && day <= 6 && current >= open && current < close;
+
+  if (isOpen) {
+    badge.textContent = "Sedang Buka";
+    badge.classList.remove("closed");
+  } else {
+    badge.textContent = "Sedang Tutup";
+    badge.classList.add("closed");
+  }
+}
+
 /* =========================
    LOADING
 ========================= */
-window.addEventListener("load", () => {
+window.addEventListener("load", () => {updateScheduleStatus();
   const loading = document.getElementById("loading-screen");
   const app = document.getElementById("app");
 
