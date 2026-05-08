@@ -99,8 +99,8 @@ body{
 }
 
 .hero-badge{
-  width:42px;
-  height:42px;
+  width:20px;
+  height:20px;
   border-radius:12px;
   background:rgba(255,255,255,.14);
   display:flex;
