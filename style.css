@@ -99,20 +99,23 @@ body{
 }
 
 .hero-badge{
-  width:20px;
-  height:20px;
-  border-radius:12px;
-  background:rgba(255,255,255,.14);
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.14);
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:4px;
+  padding:6px;
+  backdrop-filter:blur(6px);
 }
 
 .hero-logo-badge img{
   width:100%;
   height:100%;
   object-fit:contain;
+  display:block;
 }
 
 .hero h1{
