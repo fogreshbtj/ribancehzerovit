@@ -1128,7 +1128,7 @@ function lihatTiket() {
       box.classList.add("urgent");
 
       if (label) {
-        label.textContent = "Hari Minggu tidak melayani kunjungan";
+        label.textContent = "Hari Minggu Tidak Melayani Kunjungan";
       }
 
       return;
@@ -1144,7 +1144,7 @@ function lihatTiket() {
       box.classList.add("urgent");
 
       if (label) {
-        label.textContent = "Kunjungan hari ini telah ditutup";
+        label.textContent = "Kunjungan Hari Ini Telah Ditutup";
       }
 
       return;
@@ -1154,7 +1154,7 @@ function lihatTiket() {
       box.classList.add("urgent");
 
       if (label) {
-        label.textContent = "Segera datang, waktu kunjungan hampir berakhir";
+        label.textContent = "Segera Datang, Waktu Kunjungan Hampir Berakhir";
       }
 
     } else {
