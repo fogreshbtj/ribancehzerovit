@@ -1115,7 +1115,9 @@ function lihatTiket() {
 
   function startQueueCountdown() {
   const el = document.getElementById("queue-countdown");
-  if (!el) return;
+  const box = document.querySelector(".queue-countdown");
+
+  if (!el || !box) return;
 
   function tick() {
     const now = new Date();
@@ -1127,7 +1129,14 @@ function lihatTiket() {
 
     if (diff <= 0) {
       el.textContent = "WAKTU HABIS";
+      box.classList.add("urgent");
       return;
+    }
+
+    if (diff <= 30 * 60 * 1000) {
+      box.classList.add("urgent");
+    } else {
+      box.classList.remove("urgent");
     }
 
     const hours = Math.floor(diff / 1000 / 60 / 60);
