@@ -1019,3 +1019,15 @@ select{
   font-weight:800;
   letter-spacing:.04em;
 }
+
+.queue-countdown.urgent{
+  background:linear-gradient(135deg,#dc2626,#991b1b);
+}
+
+.queue-countdown.urgent .queue-count-label{
+  opacity:.92;
+}
+
+.queue-countdown.urgent .queue-count-time{
+  letter-spacing:.06em;
+}
