@@ -1194,7 +1194,7 @@ window.addEventListener("load", () => {
         loading.remove();
       }, 420);
     }
-  }, 1100);
+  }, 3300);
 });
 /* =========================
    GLOBAL
