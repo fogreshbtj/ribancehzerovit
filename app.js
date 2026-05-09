@@ -1166,9 +1166,9 @@ function initCarousel() {
    LOADING
 ========================= */
 window.addEventListener("load", () => {
-  startQueueCountdown();
   updateScheduleStatus();
-
+  startQueueCountdown();
+  
   const loading = document.getElementById("loading-screen");
   const app = document.getElementById("app");
 
