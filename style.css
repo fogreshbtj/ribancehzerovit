@@ -70,7 +70,9 @@ body{
   letter-spacing:.02em;
   margin-bottom:6px;
   opacity:0;
-  animation:fadeUp .6s ease .2s forwards;
+  animation:
+    fadeUp .6s ease .2s forwards,
+    logoGlow 2.2s ease-in-out .8s infinite;
 }
 
 .loading-subtitle{
