@@ -1000,6 +1000,7 @@ select{
 
 .queue-countdown{
   margin-top:14px;
+  margin-bottom:18px;
   padding:14px;
   border-radius:18px;
   background:linear-gradient(135deg,#0b5cab,#0a3f7c);
