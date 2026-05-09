@@ -41,7 +41,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  transition:opacity .35s ease;
+  transition:opacity .45s ease, transform .45s ease;
 }
 
 .loading-wrap{
@@ -50,52 +50,49 @@ body{
   width:100%;
   max-width:320px;
   padding:0 22px;
+  transform:translateY(0);
 }
 
 .loading-mascot{
   width:200px;
   height:auto;
-  background:transparent;
   display:block;
-  margin:0 auto 6px;
-  filter:drop-shadow(0 8px 22px rgba(0,0,0,.22));
-}
-
-.loading-emblem{
-  width:36px;
-  height:36px;
-  display:block;
-  margin:0 auto 10px;
-  object-fit:contain;
-  opacity:.95;
+  margin:0 auto 8px;
+  filter:drop-shadow(0 12px 26px rgba(0,0,0,.24));
+  animation:
+    mascotIntro .65s ease-out,
+    mascotFloat 3s ease-in-out .65s infinite;
 }
 
 .loading-logo{
-  font-size:32px;
+  font-size:28px;
   font-weight:800;
-  letter-spacing:.03em;
-  color:#fff;
+  letter-spacing:.02em;
   margin-bottom:6px;
-  text-shadow:0 4px 14px rgba(0,0,0,.18);
+  opacity:0;
+  animation:fadeUp .6s ease .2s forwards;
 }
 
 .loading-subtitle{
   font-size:13px;
-  line-height:1.45;
-  opacity:.88;
+  line-height:1.5;
+  opacity:0;
   margin-bottom:18px;
+  animation:fadeUp .6s ease .35s forwards;
 }
 
 .loading-spinner{
   display:flex;
   justify-content:center;
   gap:8px;
-  margin-bottom:14px;
+  margin-top:4px;
+  opacity:0;
+  animation:fadeUp .6s ease .5s forwards;
 }
 
 .loading-spinner span{
-  width:9px;
-  height:9px;
+  width:8px;
+  height:8px;
   border-radius:50%;
   background:#fff;
   animation:bounce 1s infinite ease-in-out;
@@ -109,45 +106,56 @@ body{
   animation-delay:.3s;
 }
 
-.loading-text{
-  font-size:12px;
-  opacity:.78;
-}
-
-#app{
-  opacity:0;
-  transform:translateY(10px);
-  transition:opacity .45s ease, transform .45s ease;
-}
-
-#app.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
 #loading-screen.hide{
   opacity:0;
-  pointer-events:none;
-}
-
-.loading-wrap{
-  text-align:center;
-  color:#fff;
-  width:100%;
-  max-width:320px;
-  padding:0 22px;
-  transform:scale(1);
-  transition:transform .45s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
+  transform:scale(1.02);
 }
 
 #loading-screen.hide .loading-wrap{
-  transform:scale(.88);
-  opacity:0;
+  transform:translateY(-10px);
+  transition:transform .45s ease;
+}
+
+@keyframes mascotIntro{
+  from{
+    opacity:0;
+    transform:translateY(14px) scale(.95);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@keyframes mascotFloat{
+  0%,100%{
+    transform:translateY(0) scale(1);
+  }
+  50%{
+    transform:translateY(-8px) scale(1.02);
+  }
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 @keyframes bounce{
-  0%,80%,100%{ transform:scale(.6); opacity:.5; }
-  40%{ transform:scale(1); opacity:1; }
+  0%,80%,100%{
+    transform:scale(.6);
+    opacity:.5;
+  }
+  40%{
+    transform:scale(1);
+    opacity:1;
+  }
 }
 
 /* HERO */
