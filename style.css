@@ -237,7 +237,7 @@ body{
 /* SHORTCUT */
 .shortcut-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:12px;
   margin-bottom:14px;
 }
@@ -249,13 +249,42 @@ body{
   cursor:pointer;
   background:#fff;
   border:1px solid #edf2f7;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:108px;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.shortcut-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(11,92,171,.08);
+}
+
+.shortcut-icon-wrap{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#eef7ff,#f8fbff);
+  border:1px solid rgba(11,92,171,.08);
+  margin-bottom:10px;
+}
+
+.shortcut-icon{
+  font-size:22px;
+  line-height:1;
 }
 
 .shortcut-title{
   font-size:13px;
   font-weight:700;
+  color:#14213d;
+  text-align:center;
 }
-
 /* CAROUSEL */
 .carousel{
   overflow:hidden;
