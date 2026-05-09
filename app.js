@@ -1113,6 +1113,37 @@ function lihatTiket() {
   buatTicket(ticket);
 }
 
+  function startQueueCountdown() {
+  const el = document.getElementById("queue-countdown");
+  if (!el) return;
+
+  function tick() {
+    const now = new Date();
+
+    const deadline = new Date();
+    deadline.setHours(11, 30, 0, 0);
+
+    const diff = deadline - now;
+
+    if (diff <= 0) {
+      el.textContent = "WAKTU HABIS";
+      return;
+    }
+
+    const hours = Math.floor(diff / 1000 / 60 / 60);
+    const minutes = Math.floor((diff / 1000 / 60) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    el.textContent =
+      String(hours).padStart(2, "0") + ":" +
+      String(minutes).padStart(2, "0") + ":" +
+      String(seconds).padStart(2, "0");
+  }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
 /* =========================
    CAROUSEL
 ========================= */
