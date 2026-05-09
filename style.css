@@ -998,4 +998,24 @@ select{
   line-height:1.55;
 }
 
+.queue-countdown{
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#0b5cab,#0a3f7c);
+  color:#fff;
+  text-align:center;
+}
 
+.queue-count-label{
+  font-size:11px;
+  opacity:.82;
+  margin-bottom:4px;
+  letter-spacing:.03em;
+}
+
+.queue-count-time{
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:.04em;
+}
