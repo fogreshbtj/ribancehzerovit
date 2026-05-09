@@ -1123,6 +1123,17 @@ function lihatTiket() {
   function tick() {
     const now = new Date();
 
+    if (now.getDay() === 0) {
+      el.textContent = "LAYANAN TUTUP";
+      box.classList.add("urgent");
+
+      if (label) {
+        label.textContent = "Hari Minggu tidak melayani kunjungan";
+      }
+
+      return;
+    }
+
     const deadline = new Date();
     deadline.setHours(11, 30, 0, 0);
 
