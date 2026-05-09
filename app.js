@@ -528,7 +528,7 @@ function showToast(message, type = "error") {
 
   window.toastTimer = setTimeout(() => {
     toast.className = "toast";
-  }, 2200);
+  }, 3000);
 }
 
 /* =========================
