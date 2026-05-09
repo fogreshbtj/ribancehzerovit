@@ -169,16 +169,16 @@ body{
 }
 
 .hero-badge{
-  width:85px;
-  height:85px;
+  width:99px;
+  height:99px;
   padding:0;
   background:transparent;
   border:none;
-  border-radius:50%;
+  border-radius:0%;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
+  overflow:visible;
 }
 
 .hero-logo-left img,
