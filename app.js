@@ -1116,6 +1116,7 @@ function lihatTiket() {
   function startQueueCountdown() {
   const el = document.getElementById("queue-countdown");
   const box = document.querySelector(".queue-countdown");
+  const label = document.querySelector(".queue-count-label");
 
   if (!el || !box) return;
 
@@ -1130,13 +1131,27 @@ function lihatTiket() {
     if (diff <= 0) {
       el.textContent = "WAKTU HABIS";
       box.classList.add("urgent");
+
+      if (label) {
+        label.textContent = "Kunjungan hari ini telah ditutup";
+      }
+
       return;
     }
 
     if (diff <= 30 * 60 * 1000) {
       box.classList.add("urgent");
+
+      if (label) {
+        label.textContent = "Segera datang, waktu kunjungan hampir berakhir";
+      }
+
     } else {
       box.classList.remove("urgent");
+
+      if (label) {
+        label.textContent = "Segera Datang Sebelum Waktu Kunjungan Berakhir";
+      }
     }
 
     const hours = Math.floor(diff / 1000 / 60 / 60);
