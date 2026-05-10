@@ -44,6 +44,12 @@ body{
   transition:opacity .45s ease, transform .45s ease;
 }
 
+#loading-screen.hide{
+  opacity:0;
+  transform:scale(1.02);
+  pointer-events:none;
+}
+
 .loading-wrap{
   text-align:center;
   color:#fff;
