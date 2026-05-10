@@ -57,11 +57,54 @@ body{
   width:200px;
   height:auto;
   display:block;
-  margin:0 auto 8px;
   filter:drop-shadow(0 12px 26px rgba(0,0,0,.24));
   animation:
     mascotIntro .65s ease-out,
     mascotFloat 3s ease-in-out .65s infinite;
+}
+
+.loading-mascot-wrap{
+  position:relative;
+  display:inline-block;
+  margin:0 auto 8px;
+  overflow:hidden;
+  border-radius:24px;
+}
+
+.loading-mascot-wrap::after{
+  content:"";
+  position:absolute;
+  top:-15%;
+  bottom:-15%;
+  left:-45%;
+  width:26%;
+  transform:skewX(-22deg);
+  background:linear-gradient(
+    90deg,
+    rgba(255,255,255,0),
+    rgba(255,255,255,.42),
+    rgba(255,255,255,0)
+  );
+  animation:logoSweep 2.8s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes logoSweep{
+  0%{
+    left:-45%;
+    opacity:0;
+  }
+  12%{
+    opacity:1;
+  }
+  48%{
+    left:120%;
+    opacity:.9;
+  }
+  100%{
+    left:120%;
+    opacity:0;
+  }
 }
 
 .loading-logo{
