@@ -12,8 +12,8 @@
   <div class="loading-wrap">
 
     <div class="loading-mascot-wrap">
-    <img src="logo-aline.png" alt="Maskot A-Line" class="loading-mascot" />
-    </div>  
+     <img src="https://raw.githubusercontent.com/fogreshbtj/ribancehzerovit/refs/heads/main/logo-aline.png" alt="Maskot A-Line" class="loading-mascot" />
+     </div>  
 
     <div class="loading-logo">A-Line</div>
 
@@ -37,10 +37,10 @@
         <section class="hero">
           <div class="hero-top">
             <div class="hero-badge hero-logo-left">
-  <img src="logo-pas.png" alt="Kemenimipas" />
+  <img src="https://raw.githubusercontent.com/fogreshbtj/ribancehzerovit/refs/heads/main/logo-kemenimipas.png" alt="Kemenimipas" />
 </div>
             <div class="hero-badge hero-logo-badge">
-  <img src="maskot-loading.png" alt="Kemenimipas" />
+  <img src="https://raw.githubusercontent.com/fogreshbtj/ribancehzerovit/refs/heads/main/maskot-loading.png" alt="Kemenimipas" />
 </div>
           </div>
 
@@ -142,10 +142,6 @@
         <!-- FORM -->
         <section class="content hidden" id="form-page">
 
-          <button class="back-btn" type="button" onclick="kembaliDashboard()">
-            ← Kembali
-          </button>
-
           <div class="form-card">
 
             <div class="field">
@@ -190,6 +186,18 @@
   <input id="wbp" placeholder="Cari nama WBP" autocomplete="off" />
   <div id="wbp-suggest" class="wbp-suggest hidden"></div>
 </div>
+             <div class="wbp-info-wrap">
+  <div class="wbp-info-card">
+    <div class="wbp-info-label">Perkara</div>
+    <input id="perkara" type="text" readonly>
+  </div>
+
+  <div class="wbp-info-card">
+    <div class="wbp-info-label">Blok / Kamar</div>
+    <input id="kamar" type="text" readonly>
+  </div>
+</div>
+             
              <div class="field">
   <label>Pengikut</label>
 
@@ -214,6 +222,10 @@
             <button id="btn-daftar" class="btn" type="button" onclick="booking()" disabled>
               Daftarkan
             </button>
+             
+             <button class="back-btn" type="button" onclick="kembaliDashboard()">
+            ← Kembali
+          </button>
 
           </div>
         </section>
