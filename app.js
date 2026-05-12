@@ -2909,68 +2909,173 @@ function lihatTiket() {
 }
 
   function startQueueCountdown() {
+
   const el = document.getElementById("queue-countdown");
   const box = document.querySelector(".queue-countdown");
   const label = document.querySelector(".queue-count-label");
 
   if (!el || !box) return;
 
+  function formatTime(ms) {
+
+    const totalSeconds = Math.floor(ms / 1000);
+
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return (
+      String(hours).padStart(2, "0") + " Jam : " +
+      String(minutes).padStart(2, "0") + " Menit : " +
+      String(seconds).padStart(2, "0") + " Detik"
+    );
+  }
+
   function tick() {
+
     const now = new Date();
 
-    if (now.getDay() === 0) {
+    // WIB
+    const wib = new Date(
+      now.toLocaleString("en-US", {
+        timeZone: "Asia/Jakarta"
+      })
+    );
+
+    const day = wib.getDay(); // 0 = Minggu
+
+    // Minggu otomatis tutup
+    if (day === 0) {
+
       el.textContent = "LAYANAN TUTUP";
+
       box.classList.add("urgent");
 
       if (label) {
-        label.textContent = "Hari Minggu Tidak Melayani Kunjungan";
+        label.textContent =
+          "Hari Minggu Tidak Melayani Kunjungan";
       }
 
       return;
     }
 
-    const deadline = new Date();
-    deadline.setHours(11, 30, 0, 0);
+    const currentMinutes =
+      (wib.getHours() * 60) + wib.getMinutes();
 
-    const diff = deadline - now;
+    const jam0800 = 8 * 60;
+    const jam0900 = 9 * 60;
+    const jam1130 = (11 * 60) + 30;
+    const jam1200 = 12 * 60;
 
-    if (diff <= 0) {
-      el.textContent = "WAKTU HABIS";
-      box.classList.add("urgent");
+    // =========================
+    // 08:00 - 09:00
+    // COUNTDOWN MENUJU BUKA
+    // =========================
+    if (
+      currentMinutes >= jam0800 &&
+      currentMinutes < jam0900
+    ) {
 
-      if (label) {
-        label.textContent = "Kunjungan Hari Ini Telah Ditutup";
-      }
+      const target = new Date(wib);
+      target.setHours(9, 0, 0, 0);
 
-      return;
-    }
+      const diff = target - wib;
 
-    if (diff <= 30 * 60 * 1000) {
-      box.classList.add("urgent");
-
-      if (label) {
-        label.textContent = "Segera Datang, Waktu Kunjungan Hampir Berakhir";
-      }
-
-    } else {
+      el.textContent = formatTime(diff);
+       
+       // mode kuning / bersiap
       box.classList.remove("urgent");
+      box.classList.add("prepare");
 
       if (label) {
-        label.textContent = "Segera Datang Sebelum Waktu Kunjungan Berakhir";
+        label.textContent =
+          "Layanan Kunjungan Akan Segera Dibuka Dalam :";
       }
+
+      return;
     }
 
-    const hours = Math.floor(diff / 1000 / 60 / 60);
-    const minutes = Math.floor((diff / 1000 / 60) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
+    // =========================
+    // 09:00 - 11:30
+    // SISA WAKTU KUNJUNGAN
+    // =========================
+    if (
+      currentMinutes >= jam0900 &&
+      currentMinutes < jam1130
+    ) {
 
-    el.textContent =
-      String(hours).padStart(2, "0") + ":" +
-      String(minutes).padStart(2, "0") + ":" +
-      String(seconds).padStart(2, "0");
+      const target = new Date(wib);
+      target.setHours(11, 30, 0, 0);
+
+      const diff = target - wib;
+
+      el.textContent = formatTime(diff);
+
+      // 30 menit terakhir = urgent
+      if (diff <= 30 * 60 * 1000) {
+
+        box.classList.add("urgent");
+
+        if (label) {
+          label.textContent =
+            "Segera Datang, Waktu Kunjungan Hampir Berakhir";
+        }
+
+      } else {
+
+        box.classList.remove("urgent");
+
+        if (label) {
+          label.textContent =
+            "Sisa Waktu Kunjungan Hari Ini";
+        }
+      }
+
+      return;
+    }
+
+    // =========================
+    // 11:30 - 12:00
+    // PENITIPAN BARANG
+    // =========================
+    if (
+      currentMinutes >= jam1130 &&
+      currentMinutes < jam1200
+    ) {
+
+      const target = new Date(wib);
+      target.setHours(12, 0, 0, 0);
+
+      const diff = target - wib;
+
+      el.textContent = formatTime(diff);
+
+      box.classList.add("urgent");
+
+      if (label) {
+        label.textContent =
+          "Hanya Melayani Penitipan Barang";
+      }
+
+      return;
+    }
+
+    // =========================
+    // 12:00 - 08:00
+    // TUTUP
+    // =========================
+    el.textContent = "LAYANAN KUNJUNGAN TUTUP";
+
+    box.classList.add("urgent");
+
+    if (label) {
+      label.textContent =
+        "Pendaftaran Layanan Kunjungan Belum Dibuka";
+    }
   }
 
   tick();
+
   setInterval(tick, 1000);
 }
 
@@ -3015,10 +3120,10 @@ function initCarousel() {
   const isOpen = day >= 1 && day <= 6 && current >= open && current < close;
 
   if (isOpen) {
-    badge.textContent = "Sedang Buka";
+    badge.textContent = "Buka";
     badge.classList.remove("closed");
   } else {
-    badge.textContent = "Sedang Tutup";
+    badge.textContent = "Tutup";
     badge.classList.add("closed");
   }
 }
