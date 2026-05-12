@@ -2201,7 +2201,7 @@ const daftarWBP = [
   },
 ]
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzB3LYw7lDfHe4zhppYMX3rWxk9wNoD43elL9ftiwSuaKJ5zAQPcK7dKYSe5RPTBQysaA/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxNR8AO5bPKNmYIgsv3k5YcYGWmZdBNC5g2KqVdVbWwDT_236vUQwAls_0DTAE9ee-umQ/exec";
 
 let wbpInput = null;
 let suggestBox = null;
