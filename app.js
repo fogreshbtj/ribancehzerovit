@@ -2491,15 +2491,19 @@ function kembaliDashboard() {
 }
 
 function kembaliBeranda() {
-  const app = document.getElementById("app");
-  if (!app || !initialAppHTML) return;
 
-  app.innerHTML = initialAppHTML;
+  document
+    .getElementById("ticket-page")
+    ?.classList.add("hidden");
 
-  initFormBindings();
-  updateDashboard();
-  initCarousel();
-  cekForm();
+  document
+    .getElementById("form-page")
+    ?.classList.add("hidden");
+
+  document
+    .getElementById("dashboard-page")
+    ?.classList.remove("hidden");
+
 }
 
 /* =========================
@@ -2692,108 +2696,42 @@ function drawFollowBox(ctx, x, y, w, label, value) {
    TICKET
 ========================= */
 function buatTicket(data) {
-  const app = document.getElementById("app");
-  if (!app) return;
 
-  app.innerHTML = `
-    <main class="app">
-      <div class="phone">
-        <section class="ticket-page">
-          <div class="ticket" id="ticket-capture">
+  document
+    .getElementById("dashboard-page")
+    ?.classList.add("hidden");
 
-            <div class="ticket-top">
-  <div class="ticket-brand">A-Line</div>
-  <div class="ticket-sub">Antrian Online Rutan Banda Aceh</div>
-</div>
+  document
+    .getElementById("form-page")
+    ?.classList.add("hidden");
 
-<div class="ticket-status">PENDAFTARAN BERHASIL</div>
-<div class="ticket-number">${data.id}</div>
+  document
+    .getElementById("ticket-page")
+    ?.classList.remove("hidden");
 
-            <div class="ticket-glass">
-              <div class="ticket-glass-label">Nama Pengunjung</div>
-              <div class="ticket-glass-value">${data.nama}</div>
-            </div>
+  document.getElementById("ticket-id").textContent =
+    data.id || "-";
 
-            <div class="ticket-detail">
+  document.getElementById("ticket-nama").textContent =
+    data.nama || "-";
 
-              <div class="ticket-row">
-                <span>NIK</span>
-                <strong>${data.nik}</strong>
-              </div>
+  document.getElementById("ticket-nik").textContent =
+    data.nik || "-";
 
-              <div class="ticket-row">
-                <span>Jenis Kelamin</span>
-                <strong>${data.gender}</strong>
-              </div>
+  document.getElementById("ticket-gender").textContent =
+    data.gender || "-";
 
-              <div class="ticket-row">
-                <span>Relasi</span>
-                <strong>${data.relasi}</strong>
-              </div>
+  document.getElementById("ticket-relasi").textContent =
+    data.relasi || "-";
 
-              <div class="ticket-row">
-                <span>Nama WBP</span>
-                <strong>${data.wbp}</strong>
-              </div>
-              
-              <div class="ticket-row">
-  <span>Kamar / Blok</span>
-  <strong>${data.kamar || "-"}</strong>
-</div>
+  document.getElementById("ticket-wbp").textContent =
+    data.wbp || "-";
 
-              <div class="ticket-row">
-                <span>Pengikut</span>
-                <strong>
-                  <div class="ticket-followers">
-                    <div class="ticket-follow-item">
-                      <small>Laki-laki</small>
-                      <b>${data.pengikutLaki || 0}</b>
-                    </div>
-                    <div class="ticket-follow-item">
-                      <small>Perempuan</small>
-                      <b>${data.pengikutPerempuan || 0}</b>
-                    </div>
-                    <div class="ticket-follow-item">
-                      <small>Anak-anak</small>
-                      <b>${data.pengikutAnak || 0}</b>
-                    </div>
-                  </div>
-                </strong>
-              </div>
-
-            </div>
-
-            <div class="ticket-divider"></div>
-
-            <div class="ticket-qr">
-              <canvas id="ticket-qr"></canvas>
-            </div>
-
-            <div class="ticket-note">
-              Scan QR Code ini saat Verifikasi Kunjungan
-            </div>
-
-            <div class="ticket-footer">
-              Dokumen digital resmi • A-LINE
-            </div>
-
-            <div class="ticket-actions">
-              <button class="btn-secondary" onclick="downloadQR()">
-                Download QR
-              </button>
-
-              <button class="btn" type="button" onclick="kembaliBeranda()">
-                Kembali ke Beranda
-              </button>
-            </div>
-
-          </div>
-        </section>
-      </div>
-    </main>
-  `;
+  document.getElementById("ticket-kamar").textContent =
+    data.kamar || "-";
 
   if (typeof QRCode !== "undefined") {
+
     QRCode.toCanvas(
       document.getElementById("ticket-qr"),
       JSON.stringify(data),
@@ -2802,6 +2740,7 @@ function buatTicket(data) {
         margin: 2
       }
     );
+
   }
 }
 
