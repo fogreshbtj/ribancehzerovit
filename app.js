@@ -2913,6 +2913,7 @@ function lihatTiket() {
   const el = document.getElementById("queue-countdown");
   const box = document.querySelector(".queue-countdown");
   const label = document.getElementById("queue-label");
+  const scheduleStatus = document.getElementById("schedule-status");  
 
   if (!el || !box) return;
 
@@ -2949,6 +2950,8 @@ function lihatTiket() {
 
       el.textContent = "LAYANAN TUTUP";
 
+      scheduleStatus.textContent = "TUTUP";
+
       box.classList.add("urgent");
 
       if (label) {
@@ -2982,6 +2985,8 @@ function lihatTiket() {
       const diff = target - wib;
 
       el.textContent = formatTime(diff);
+
+      scheduleStatus.textContent = "AKAN BUKA";
        
        // mode kuning / bersiap
       box.classList.remove("urgent");
@@ -3010,6 +3015,8 @@ function lihatTiket() {
       const diff = target - wib;
 
       el.textContent = formatTime(diff);
+
+      scheduleStatus.textContent = "BUKA";
 
       // 30 menit terakhir = urgent
       if (diff <= 30 * 60 * 1000) {
@@ -3050,6 +3057,8 @@ function lihatTiket() {
 
       el.textContent = formatTime(diff);
 
+      scheduleStatus.textContent = "PENITIPAN";
+
       box.classList.add("urgent");
 
       if (label) {
@@ -3065,6 +3074,8 @@ function lihatTiket() {
     // TUTUP
     // =========================
     el.textContent = "LAYANAN KUNJUNGAN TUTUP";
+
+    scheduleStatus.textContent = "TUTUP";
 
     box.classList.add("urgent");
 
