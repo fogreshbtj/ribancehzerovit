@@ -2246,6 +2246,10 @@ function initFormBindings() {
 
   if (wbpInput) {
     wbpInput.addEventListener("input", (e) => {
+      
+      console.log("INPUT WBP AKTIF");
+
+      
       renderSuggestions(e.target.value);
       cekForm();
     });
@@ -3188,7 +3192,7 @@ function initCarousel() {
 ========================= */
 window.addEventListener("DOMContentLoaded", () => {
   
-  
+  initFormBindings();
   startQueueCountdown();
   const loadingScreen = document.getElementById("loading-screen");
   const app = document.getElementById("app");
