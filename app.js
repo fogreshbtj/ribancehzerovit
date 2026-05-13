@@ -3082,17 +3082,45 @@ function lihatTiket() {
 function speakSuccess() {
 
   const text =
-    "Assalamualaikum! Selamat datang di Antrian Online Rutan Banda Aceh.";
+    "Assalamualaikum!!! Selamat datang di Antrian Online Rutan Banda Aceh.";
 
   const msg = new SpeechSynthesisUtterance(text);
 
+  // pengaturan suara
   msg.lang = "id-ID";
-  msg.rate = 1.1;
-  msg.pitch = 1;
+  msg.rate = 1;   // lebih halus
+  msg.pitch = 1.1;  // lebih feminin
   msg.volume = 1;
 
+  // ambil daftar voice
+  const voices = window.speechSynthesis.getVoices();
+
+  // prioritas voice perempuan
+  const femaleVoice =
+    voices.find(v =>
+      v.lang.includes("id") &&
+      (
+        v.name.toLowerCase().includes("female") ||
+        v.name.toLowerCase().includes("google") ||
+        v.name.toLowerCase().includes("indonesia")
+      )
+    ) ||
+
+    voices.find(v => v.lang.includes("id")) ||
+
+    voices.find(v => v.lang.includes("en"));
+
+  if (femaleVoice) {
+    msg.voice = femaleVoice;
+  }
+
+  // hentikan suara sebelumnya
   window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(msg);
+
+  // delay kecil supaya smooth
+  setTimeout(() => {
+    window.speechSynthesis.speak(msg);
+  }, 150);
 }
 
 /* =========================
