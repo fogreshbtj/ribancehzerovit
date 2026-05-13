@@ -646,6 +646,9 @@ select{
 }
 
 .ticket-qr canvas{
+  width:260px;
+  height:260px;
+  image-rendering: pixelated;
   transition:transform .25s ease;
 }
 
