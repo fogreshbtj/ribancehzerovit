@@ -3082,12 +3082,12 @@ function lihatTiket() {
 function speakSuccess() {
 
   const text =
-    "Assalamualaikum. Selamat datang di Antrian Online Rutan Banda Aceh.";
+    "Assalamualaikum! Selamat datang di Antrian Online Rutan Banda Aceh.";
 
   const msg = new SpeechSynthesisUtterance(text);
 
   msg.lang = "id-ID";
-  msg.rate = 1;
+  msg.rate = 1.1;
   msg.pitch = 1;
   msg.volume = 1;
 
