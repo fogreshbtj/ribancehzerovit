@@ -2912,7 +2912,7 @@ function lihatTiket() {
 
   const el = document.getElementById("queue-countdown");
   const box = document.querySelector(".queue-countdown");
-  const label = document.querySelector(".queue-count-label");
+  const label = document.getElementById("queue-label");
 
   if (!el || !box) return;
 
@@ -3079,6 +3079,22 @@ function lihatTiket() {
   setInterval(tick, 1000);
 }
 
+function speakSuccess() {
+
+  const text =
+    "Assalamualaikum. Selamat datang di Antrian Online Rutan Banda Aceh.";
+
+  const msg = new SpeechSynthesisUtterance(text);
+
+  msg.lang = "id-ID";
+  msg.rate = 1;
+  msg.pitch = 1;
+  msg.volume = 1;
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(msg);
+}
+
 /* =========================
    CAROUSEL
 ========================= */
@@ -3131,37 +3147,36 @@ function initCarousel() {
 /* =========================
    LOADING
 ========================= */
-window.addEventListener("load", () => {
-  updateScheduleStatus();
-  startQueueCountdown();
+window.addEventListener("DOMContentLoaded", () => {
   
-  const loading = document.getElementById("loading-screen");
+  
+  startQueueCountdown();
+  const loadingScreen = document.getElementById("loading-screen");
   const app = document.getElementById("app");
+  const enterBtn = document.getElementById("enter-dashboard-btn");
 
-  initialAppHTML = document.getElementById("app")?.innerHTML || "";
+  // tampilkan app di belakang welcome screen
+  app.classList.remove("hidden");
 
-  initFormBindings();
-  updateDashboard();
-  initCarousel();
-  cekForm();
+  // pastikan tombol ditemukan
+  if (enterBtn) {
 
-  setTimeout(() => {
-    if (!app) return;
+    enterBtn.addEventListener("click", function () {
+      
+      speakSuccess();
 
-    app.classList.remove("hidden");
-
-    requestAnimationFrame(() => {
-      app.classList.add("show");
-    });
-
-    if (loading) {
-      loading.classList.add("hide");
+      // animasi fade out
+      loadingScreen.style.opacity = "0";
+      loadingScreen.style.pointerEvents = "none";
 
       setTimeout(() => {
-        loading.remove();
-      }, 420);
-    }
-  }, 2000);
+        loadingScreen.style.display = "none";
+      }, 400);
+
+    });
+
+  }
+
 });
 /* =========================
    GLOBAL
