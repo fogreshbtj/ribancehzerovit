@@ -2771,6 +2771,7 @@ async function booking() {
       return `RTN-${yyyy}${mm}${dd}${hh}${mi}${ss}`;
     })(),
 
+    tanggalKunjungan: getValue("tanggalKunjungan"),
     nik: getValue("nik"),
     alamat: getValue("alamat"),
     nama: getValue("nama"),
@@ -3133,6 +3134,85 @@ window.addEventListener("DOMContentLoaded", () => {
   
   initFormBindings();
   startQueueCountdown();
+   
+   // =========================
+// BATAS TANGGAL KUNJUNGAN
+// =========================
+const inputTanggal =
+  document.getElementById("tanggalKunjungan");
+
+if (inputTanggal) {
+
+  const today = new Date();
+
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1)
+      .padStart(2, "0");
+    const day = String(date.getDate())
+      .padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  // Hari ini
+  const minDate = formatDate(today);
+
+  // Besok
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  // Jika besok Minggu → paksa tetap hari ini
+  if (tomorrow.getDay() === 0) {
+    tomorrow.setDate(today.getDate());
+  }
+
+  const maxDate = formatDate(tomorrow);
+
+  // Batasi kalender
+  inputTanggal.min = minDate;
+  inputTanggal.max = maxDate;
+
+  // Default otomatis hari ini
+  inputTanggal.value = minDate;
+
+  // Validasi tambahan
+  inputTanggal.addEventListener("change", function () {
+
+    const selected =
+      new Date(this.value);
+
+    const selectedDay =
+      selected.getDay();
+
+    // blok hari Minggu
+    if (selectedDay === 0) {
+
+      showToast(
+        "Hari Minggu tidak melayani kunjungan"
+      );
+
+      this.value = minDate;
+      return;
+    }
+
+    // validasi bypass tanggal
+    if (
+      this.value < minDate ||
+      this.value > maxDate
+    ) {
+
+      showToast(
+        "Hanya bisa memilih hari ini atau besok"
+      );
+
+      this.value = minDate;
+    }
+
+  });
+
+}
+   
   const loadingScreen = document.getElementById("loading-screen");
   const app = document.getElementById("app");
   const enterBtn = document.getElementById("enter-dashboard-btn");
